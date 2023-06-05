@@ -1,0 +1,4 @@
+/* 打开 base 属性会导致 antd 的样式被覆盖 */
+/* @tailwind base; */
+@tailwind components;
+@tailwind utilities;

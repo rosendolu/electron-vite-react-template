@@ -1,0 +1,58 @@
+[
+  {
+    "_id": "795fed2b-d84b-4241-9164-4305023304f1",
+    "name": "test",
+    "default": false,
+    "sortNum": 20000,
+    "created": "2023-05-12T10:10:14.462Z",
+    "modified": "2023-05-12T10:10:14.462Z",
+    "data": [
+      {
+        "name": "baseURL",
+        "value": "https://nnkosmos.com:10015"
+      }
+    ],
+    "envFile": "../env/.env.test"
+  },
+  {
+    "_id": "5c477bb5-5684-4ebe-bad9-e9439046431d",
+    "name": "(Local Env)",
+    "default": false,
+    "global": true,
+    "local": true,
+    "sortNum": -1,
+    "created": "2023-06-05T12:03:39.291Z",
+    "modified": "2023-06-05T12:03:39.291Z",
+    "data": []
+  },
+  {
+    "_id": "8f69b541-ca0c-459a-bbfe-b4b48676549b",
+    "name": "(Global Env)",
+    "default": false,
+    "global": true,
+    "sortNum": -2,
+    "created": "2023-06-05T12:03:42.757Z",
+    "modified": "2023-06-05T12:03:42.757Z",
+    "data": [],
+    "envFile": "../env/.env"
+  },
+  {
+    "_id": "2534d3c2-f8bc-4060-8f41-1d40de8cd106",
+    "name": "prod",
+    "default": false,
+    "sortNum": 30000,
+    "created": "2023-06-05T12:06:40.628Z",
+    "modified": "2023-06-05T12:06:40.628Z",
+    "data": [],
+    "envFile": "../env/.env.prod"
+  },
+  {
+    "_id": "e2a4c002-a3b0-4347-969a-0fba23a23021",
+    "name": "dev",
+    "default": true,
+    "sortNum": 9999.5,
+    "created": "2023-06-05T12:07:13.092Z",
+    "modified": "2023-06-05T12:07:13.092Z",
+    "data": []
+  }
+]
