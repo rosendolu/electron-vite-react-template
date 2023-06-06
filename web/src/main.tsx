@@ -6,7 +6,6 @@ import zhCN from 'antd/locale/zh_CN';
 import 'babel-polyfill';
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
-import 'draft-js/dist/Draft.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Toaster } from 'react-hot-toast';
