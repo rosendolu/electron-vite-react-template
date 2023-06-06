@@ -14,7 +14,7 @@
     "no-unused-labels": "off",
     "indent": ["off", "tab"],
     "linebreak-style": ["error", "unix"],
-    "quotes": ["error", "single"],
+    "quotes": ["off", "single"],
     "semi": ["error", "always"]
   }
 }
