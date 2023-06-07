@@ -1,5 +1,6 @@
 const path = require('path');
 const { app, BrowserWindow } = require('electron');
+const logger = require('../helper/logger');
 const NODE_ENV = process.env.NODE_ENV;
 function createWindow() {
   // 创建浏览窗口
@@ -7,10 +8,10 @@ function createWindow() {
     width: 800,
     height: 600,
     webPreferences: {
-      preload: path.join(__dirname, 'app/preload/index.js'),
+      preload: path.join(__dirname, '../preload/common.js'),
     },
   });
-
+  // logger.debug('path.join', path.join(__dirname, '../preload/common.js'));
   if (NODE_ENV == 'development') {
     mainWindow.loadURL('http://192.168.20.222:5173/');
   } else {

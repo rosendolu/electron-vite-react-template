@@ -1,6 +1,7 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const { createWindow } = require('./window/index');
+const logger = require('./helper/logger');
 // const { Tray } = require('electron');
 // const appIcon = new Tray(path.resolve('./assets/icon/'));
 (async () => {
@@ -18,6 +19,11 @@ const { createWindow } = require('./window/index');
   app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit();
   });
-
-  //
+  // ipc 通讯
+  require('./ipc/index');
+  ipcMain.on('msg/hello', (event, payloads) => {
+    const ctx = { event, payloads };
+    logger.debug('channel', payloads);
+  });
+  // bundle 实现 preload 脚本
 })();

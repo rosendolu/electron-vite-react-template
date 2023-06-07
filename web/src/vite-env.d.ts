@@ -13,3 +13,13 @@ interface ImportMeta {
 declare namespace process {
   const env: Record<string, string>;
 }
+
+export interface IElectronAPI {
+  loadPreferences: () => Promise<void>;
+}
+
+declare global {
+  interface Window {
+    electronAPI: IElectronAPI;
+  }
+}
