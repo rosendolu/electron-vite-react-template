@@ -2,19 +2,19 @@ const { contextBridge, ipcRenderer, dialog } = require('electron');
 const glob = require('glob');
 const path = require('path');
 const logger = require('../helper/logger');
+const { writeFile, writeFileSync } = require('fs');
 
 // WARNNING
-// 仅当 nodejs integration  开启之后才有效
-// nodeIntegration: true,
 
-const middleware = glob.sync('./**/*.middleware.js', { cwd: path.resolve('./ipc') });
-const exposeObj = {
-  versions: {
-    node: process.versions.node,
-    chrome: process.versions.chrome,
-    electron: process.versions.electron,
-  },
-};
+/**
+ *
+ * Preload 脚本 不支持 require() 其他commonjs 模块，需要用bundle 方案实现
+ */
+
+// https://www.electronjs.org/zh/docs/latest/tutorial/sandbox
+
+const middleware = glob.sync('./**/*common.middleware.js', { cwd: path.resolve('./ipc') });
+const exposeObj = {};
 for (const filePath of middleware) {
   const item = require(path.resolve('./ipc', filePath));
   const { channel, type } = item;
@@ -31,9 +31,8 @@ for (const filePath of middleware) {
       logger.error('只接受一个参数，多个参数请用对象包裹');
     }
     console.log(dialog.showOpenDialog({ properties: ['openFile', 'multiSelections'] }));
-    ipcRenderer.send(channel, args[0]);
+    ipcRenderer.invoke(channel, args[0]);
   };
 }
 logger.debug(exposeObj);
-//
-contextBridge.exposeInMainWorld('$bridge', exposeObj);
+// writeFileSync(path.resolve(__dirname, './common.js'), exposeObj.toString());

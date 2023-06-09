@@ -8,12 +8,13 @@ function createWindow() {
     width: 800,
     height: 600,
     webPreferences: {
+      nodeIntegration: true,
       preload: path.join(__dirname, '../preload/common.js'),
     },
   });
   // logger.debug('path.join', path.join(__dirname, '../preload/common.js'));
   if (NODE_ENV == 'development') {
-    mainWindow.loadURL('http://192.168.20.222:5173/');
+    mainWindow.loadURL('http://localhost:5173/');
   } else {
     // 加载 index.html
     mainWindow.loadFile('../web/dist/index.html');

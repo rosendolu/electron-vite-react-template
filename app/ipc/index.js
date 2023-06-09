@@ -14,6 +14,9 @@ try {
       ipcMain.on(channel, (event, payloads = {}) => {
         const ctx = { event, payloads };
         logger.debug('channel', payloads);
+        const { dialog } = require('electron');
+        console.log(dialog.showOpenDialog({ properties: ['openFile', 'multiSelections'] }));
+
         handler(ctx).catch(err => logger.error(channel, err));
       });
       continue;

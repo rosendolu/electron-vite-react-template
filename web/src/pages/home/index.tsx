@@ -2,10 +2,11 @@ import { Button, Space } from 'antd';
 import { toast } from 'react-hot-toast';
 
 export default function Index() {
-  function sayHello() {
-    // alert(versions.electron || 'xx');
-    toast.loading(versions.electron() || '');
-    console.log(versions.hello());
+  async function sayHello() {
+    toast.success(window.$bridge.versions.electron || '');
+    // console.log(window.$bridge.msg.hello());
+    const res = await window.$bridge.msg.hello();
+    toast.success(res || 'hello hi');
     // myAPI.hello();
   }
   return (
