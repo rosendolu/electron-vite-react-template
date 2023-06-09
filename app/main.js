@@ -22,4 +22,8 @@ const logger = require('./helper/logger');
   // ipc 通讯
   require('./ipc/index');
   // bundle 实现 preload 脚本
+
+  // ipcMain.on('msg/hello', (event, payloads) => {
+  //   logger.debug('msg/hello', payloads);
+  // });
 })();

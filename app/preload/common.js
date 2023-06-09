@@ -14,6 +14,11 @@ const exposeObj = {
     chrome: process.versions.chrome,
     electron: process.versions.electron,
   },
+  msg: {
+    hi() {
+      ipcRenderer.send('msg/hi', 'hi from renderer');
+    },
+  },
 };
 for (const filePath of middleware) {
   const item = require(path.resolve('./ipc', filePath));
@@ -26,11 +31,11 @@ for (const filePath of middleware) {
     }
     pre = pre[key];
   }
-  pre[keys[keys.length - 1]] = (...args) => {
+  // logger.debug('pre', channel, keys, JSON.stringify(pre), [keys[keys.length - 1]]);
+  pre[keys[keys.length - 1]] = function handler(...args) {
     if (args.length > 1) {
       logger.error('只接受一个参数，多个参数请用对象包裹');
     }
-    console.log(dialog.showOpenDialog({ properties: ['openFile', 'multiSelections'] }));
     ipcRenderer.send(channel, args[0]);
   };
 }
