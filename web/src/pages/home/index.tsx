@@ -5,8 +5,9 @@ export default function Index() {
   async function sayHello() {
     toast.success(window.$bridge.versions.electron || '');
     // console.log(window.$bridge.msg.hello());
-    const res = await window.$bridge.msg.hello({ a: 1, b: 2 });
-    toast.success(res || 'hello hi');
+    const res = await window.$bridge.msg.hello();
+    console.log(res);
+    toast.success(res || 'xxx');
     // myAPI.hello();
   }
   return (

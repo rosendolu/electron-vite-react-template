@@ -31,13 +31,30 @@ for (const filePath of middleware) {
     }
     pre = pre[key];
   }
-  // logger.debug('pre', channel, keys, JSON.stringify(pre), [keys[keys.length - 1]]);
-  pre[keys[keys.length - 1]] = function handler(...args) {
-    if (args.length > 1) {
-      logger.error('只接受一个参数，多个参数请用对象包裹');
-    }
-    ipcRenderer.send(channel, args[0]);
-  };
+
+  switch (type) {
+    // render => main 单向通讯
+    case 'on':
+      // logger.debug('pre', channel, keys, JSON.stringify(pre), [keys[keys.length - 1]]);
+      pre[keys[keys.length - 1]] = function handler(...args) {
+        if (args.length > 1) {
+          logger.error('只接受一个参数，多个参数请用对象包裹');
+        }
+        ipcRenderer.send(channel, args[0]);
+      };
+      break;
+
+    // render => main 双向通讯
+    case 'handle':
+      // logger.debug('pre', channel, keys, JSON.stringify(pre), [keys[keys.length - 1]]);
+      pre[keys[keys.length - 1]] = function handler(...args) {
+        if (args.length > 1) {
+          logger.error('只接受一个参数，多个参数请用对象包裹');
+        }
+        return ipcRenderer.invoke(channel, args[0]).then(res => res);
+      };
+      break;
+  }
 }
 logger.debug(exposeObj);
 //

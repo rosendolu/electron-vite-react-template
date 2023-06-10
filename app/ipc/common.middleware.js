@@ -1,17 +1,21 @@
 const compose = require('koa-compose');
 const logger = require('../helper/logger');
+const { dialog } = require('electron');
+
 const createChannelName = str => `msg/${str}`;
 const hello = createChannelName('hello');
 
 async function sayHello(ctx, next) {
-  logger.debug('sayHello ctx', ctx);
-  // const { dialog } = require('electron');
-  // console.log(dialog.showOpenDialog({ properties: ['openFile', 'multiSelections'] }));
-  return 'hi';
+  const { canceled, filePaths } = await dialog.showOpenDialog();
+  if (!canceled) {
+    logger.debug(filePaths[0]);
+    ctx.res = filePaths[0];
+    return filePaths[0];
+  }
 }
 
 module.exports = {
   channel: hello,
-  type: 'on',
+  type: 'handle',
   handler: compose([sayHello]),
 };

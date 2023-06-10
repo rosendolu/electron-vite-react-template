@@ -11,21 +11,25 @@ try {
     const { channel, type, handler } = item;
     logger.debug('ipc middleware', item);
     if (type == 'on') {
-      ipcMain.on(channel, (event, payloads = {}) => {
-        const ctx = { event, payloads };
-        logger.debug('channel', payloads);
-        handler(ctx).catch(err => logger.error(channel, err));
+      ipcMain.on(channel, (event, payload = {}) => {
+        const ctx = { event, payload, res: null };
+        // logger.debug('channel', payload);
+        handler(ctx)
+          .then(() => {
+            logger.debug('on', channel, payload, ctx.res);
+            return ctx.res || null;
+          })
+          .catch(err => logger.error(channel, err));
       });
       continue;
     }
     if (type == 'handle') {
-      ipcMain.handle(channel, (event, payloads) => {
-        const ctx = { event, payloads };
-        logger.debug('channel', payloads);
+      ipcMain.handle(channel, (event, payload) => {
+        const ctx = { event, payload, res: null };
         return handler(ctx)
-          .then(res => {
-            logger.debug('res', res);
-            return res;
+          .then(() => {
+            logger.debug('handle', channel, payload, ctx.res);
+            return ctx.res;
           })
           .catch(err => {
             logger.error(channel, err);

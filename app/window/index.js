@@ -15,6 +15,8 @@ function createWindow() {
   // logger.debug('path.join', path.join(__dirname, '../preload/common.js'));
   if (NODE_ENV == 'development') {
     mainWindow.loadURL('http://localhost:5173/');
+    // Open the DevTools.
+    mainWindow.webContents.openDevTools();
   } else {
     // 加载 index.html
     mainWindow.loadFile('../web/dist/index.html');
