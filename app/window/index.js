@@ -1,17 +1,18 @@
 const path = require('path');
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, session } = require('electron');
 const logger = require('../helper/logger');
 const NODE_ENV = process.env.NODE_ENV;
-function createWindow() {
+async function createWindow() {
   // 创建浏览窗口
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1080,
+    height: 800,
     webPreferences: {
       nodeIntegration: true,
       preload: path.join(__dirname, '../preload/common.js'),
     },
   });
+
   // logger.debug('path.join', path.join(__dirname, '../preload/common.js'));
   if (NODE_ENV == 'development') {
     mainWindow.loadURL('http://localhost:5173/');

@@ -1,8 +1,7 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, session } = require('electron');
 const path = require('path');
 const { createWindow } = require('./window/index');
 const logger = require('./helper/logger');
-// const { Tray } = require('electron');
 // const appIcon = new Tray(path.resolve('./assets/icon/'));
 (async () => {
   await app.whenReady();
@@ -21,17 +20,4 @@ const logger = require('./helper/logger');
   });
   // ipc 通讯
   require('./ipc/index');
-  // bundle 实现 preload 脚本
-
-  // ipcMain.on('msg/hello', (event, payload) => {
-  //   logger.debug('msg/hello', payload);
-  // });
-
-  // ipcMain.handle('msg/hello', async (event, payload) => {
-  //   const { canceled, filePaths } = await dialog.showOpenDialog();
-  //   if (!canceled) {
-  //     logger.debug(filePaths[0]);
-  //     return filePaths[0];
-  //   }
-  // });
 })();
