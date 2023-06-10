@@ -1,5 +1,8 @@
 module.exports = {
-  packagerConfig: {},
+  packagerConfig: {
+    // 可找网站直接生成 windows https://www.butterpig.top/icopro
+    icon: './assets/icon/app', // no file extension required
+  },
   rebuildConfig: {},
   makers: [
     {
@@ -17,6 +20,14 @@ module.exports = {
     {
       name: '@electron-forge/maker-rpm',
       config: {},
+    },
+    {
+      name: '@electron-forge/maker-appx',
+      config: {
+        publisher: 'CN=developmentca',
+        devCert: '/Users/neptune/github/electron-vite-react-template/app/local/certificate.pfx',
+        certPass: 'zhoubindaydayup',
+      },
     },
   ],
 };

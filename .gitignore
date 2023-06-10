@@ -34,3 +34,4 @@ app/preload/build/*
 app/web
 app/out
 .parcel-cache/
+app/local
