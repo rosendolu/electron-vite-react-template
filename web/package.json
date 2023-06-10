@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "vite --host",
     "dev:prod": "vite --host --mode prod",
-    "build": "tsc && vite build --mode prod",
+    "build": "tsc && vite build --mode prod --emptyOutDir",
     "build:test": "tsc && vite build --mode test",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"

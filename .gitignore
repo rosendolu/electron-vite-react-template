@@ -31,3 +31,6 @@ env/local.env
 .eslintignore
 .vite/
 app/preload/build/*
+app/web
+app/out
+.parcel-cache/

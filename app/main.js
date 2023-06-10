@@ -1,7 +1,5 @@
-const { app, BrowserWindow, ipcMain, dialog, session } = require('electron');
-const path = require('path');
+const { app, BrowserWindow } = require('electron');
 const { createWindow } = require('./window/index');
-const logger = require('./helper/logger');
 // const appIcon = new Tray(path.resolve('./assets/icon/'));
 (async () => {
   await app.whenReady();
@@ -9,7 +7,9 @@ const logger = require('./helper/logger');
   app.on('activate', () => {
     // 在 macOS 系统内, 如果没有已开启的应用窗口
     // 点击托盘图标时通常会重新创建一个新窗口
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
+    if (BrowserWindow.getAllWindows().length === 0) {
+      createWindow();
+    }
   });
 
   // 除了 macOS 外，当所有窗口都被关闭的时候退出程序。 因此, 通常

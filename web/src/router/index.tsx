@@ -1,7 +1,10 @@
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider, createHashRouter } from 'react-router-dom';
 import Home from '../pages/home';
 
-const routers = createBrowserRouter([
+// WARNNING:
+// 不能用 createBrowserRouter ，
+// browserRouter 会导致页面404 报错
+const routers = createHashRouter([
   {
     path: '/',
     element: <Home></Home>,

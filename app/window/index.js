@@ -8,7 +8,11 @@ async function createWindow() {
     width: 1080,
     height: 800,
     webPreferences: {
-      nodeIntegration: true,
+      devTools: true,
+      sandbox: true,
+      // webSecurity: true,
+      // allowRunningInsecureContent: false,
+      // nodeIntegration: true,
       preload: path.join(__dirname, '../preload/common.js'),
     },
   });
@@ -16,15 +20,16 @@ async function createWindow() {
   // logger.debug('path.join', path.join(__dirname, '../preload/common.js'));
   if (NODE_ENV == 'development') {
     mainWindow.loadURL('http://localhost:5173/');
-    // Open the DevTools.
     mainWindow.webContents.openDevTools();
+    // Open the DevTools.
   } else {
     // 加载 index.html
-    mainWindow.loadFile('../web/dist/index.html');
+    // mainWindow.loadURL('http://localhost:3000');
+    mainWindow.loadFile(path.join(app.getAppPath(), './web/index.html'));
   }
 
   // 打开开发工具
-  // mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools();
 }
 
 module.exports = { createWindow };
