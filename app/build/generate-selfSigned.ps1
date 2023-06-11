@@ -5,6 +5,7 @@
 # New-SelfSignedCertificate @params
 
 
+# windows 系统下生成签名证书
 
 $cert = New-SelfSignedCertificate -DnsName "localhost" -CertStoreLocation 'Cert:\LocalMachine\My'
 

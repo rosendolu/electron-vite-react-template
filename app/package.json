@@ -22,9 +22,11 @@
     "cheerio": "^1.0.0-rc.12",
     "dayjs": "^1.11.8",
     "electron-squirrel-startup": "^1.0.0",
+    "env-cmd": "^10.1.0",
     "glob": "^10.2.7",
     "koa-compose": "^4.1.0",
-    "log4js": "^6.9.1"
+    "log4js": "^6.9.1",
+    "nanoid": "^4.0.2"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.1.1",
