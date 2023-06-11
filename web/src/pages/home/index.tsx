@@ -41,13 +41,20 @@ export default function Index() {
     } else {
       toastID = toast.loading('搜索中...');
     }
-    const list = await window.$bridge.scrapper.getPunishmentList(params);
-    toast.success('查询成功', { id: toastID });
+    try {
+      const list = await window.$bridge.scrapper.getPunishmentList(params);
+      toast.success('查询成功', { id: toastID });
 
-    setList(formatHighlight(list));
-    console.log('list', list);
-    form.resetFields(['count', 'scope', 'queryText']);
-    toastID = '';
+      setList(formatHighlight(list));
+      console.log('list', list);
+    } catch (error) {
+      toast.error('搜索失败，请稍后再试');
+      console.log(error);
+    } finally {
+      toast.dismiss(toastID);
+      form.resetFields(['count', 'scope', 'queryText']);
+      toastID = '';
+    }
   }
   return (
     <div className="p-4">
