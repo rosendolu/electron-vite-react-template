@@ -35,12 +35,19 @@ export default function Index() {
       return;
     }
     console.log('params', params);
-    const toastID = toast.loading('搜索中...');
+    let toastID = '';
+    if (toastID) {
+      toastID = toast.loading('重新搜索中...', { id: toastID });
+    } else {
+      toastID = toast.loading('搜索中...');
+    }
     const list = await window.$bridge.scrapper.getPunishmentList(params);
     toast.success('查询成功', { id: toastID });
 
     setList(formatHighlight(list));
     console.log('list', list);
+    form.resetFields(['count', 'scope', 'queryText']);
+    toastID = '';
   }
   return (
     <div className="p-4">

@@ -21,13 +21,13 @@ module.exports = {
       name: '@electron-forge/maker-rpm',
       config: {},
     },
-    {
-      name: '@electron-forge/maker-appx',
-      config: {
-        publisher: 'CN=developmentca',
-        devCert: '/Users/neptune/github/electron-vite-react-template/app/local/certificate.pfx',
-        certPass: 'zhoubindaydayup',
-      },
-    },
+    // {
+    //   name: '@electron-forge/maker-appx',
+    //   config: {
+    //     publisher: 'CN=developmentca',
+    //     devCert: '/Users/neptune/github/electron-vite-react-template/app/local/certificate.pfx',
+    //     certPass: 'zhoubindaydayup',
+    //   },
+    // },
   ],
 };
