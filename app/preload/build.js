@@ -3,7 +3,6 @@ const glob = require('glob');
 const path = require('path');
 const logger = require('../helper/logger');
 const { writeFile, writeFileSync, readFileSync } = require('fs');
-const { log } = require('console');
 
 // WARNNING
 
@@ -15,22 +14,22 @@ const { log } = require('console');
 // https://www.electronjs.org/zh/docs/latest/tutorial/sandbox
 
 const list = [];
-const middleware = glob.sync('./**/*.middleware.js', { cwd: path.resolve('./ipc') });
-for (const filePath of middleware) {
-  const item = require(path.resolve('./ipc', filePath));
-  // item.delete('handler');
+const middleware = glob.sync('./**/*.middleware.js', { cwd: getPath('../ipc') }).map(url => require(getPath('../ipc/' + url)));
+for (const item of middleware) {
   delete item.handler;
-  // const { channel, type,handler } = item;
   list.push(item);
 }
 
 logger.debug(list);
-
 try {
-  const preloadJs = readFileSync(path.resolve('./preload/common.js')).toString();
+  const preloadJs = readFileSync(getPath('./common.js')).toString();
   const updatedContent = preloadJs.replace('const icpList = [];', `const icpList = ${JSON.stringify(list)};`);
-  writeFileSync(path.resolve('./preload/common.js'), updatedContent);
-  logger.fatal('updatedContent', updatedContent);
+  writeFileSync(getPath('./common.js'), updatedContent);
+  // logger.fatal('updatedContent', updatedContent);
 } catch (error) {
   logger.error(error);
+}
+
+function getPath(url = '') {
+  return path.resolve(__dirname, url);
 }

@@ -10,7 +10,7 @@ log4js.configure({
     // default: {
     //   type: 'dateFile',
     //   pattern: 'hh',
-    //   filename: NODE_ENV == 'production' ? path.resolve(process.env.HOME, 'zhoubinToolkit/logs/log') : path.resolve('./logs/log'),
+    //   filename:  getPath('../logs/log'),
     //   maxLogSize: 5242880, // 5M
     //   numBackups: 7,
     //   // compress: true,
@@ -55,3 +55,7 @@ process.on('uncaughtException', () => {
 
 const logger = log4js.getLogger('default');
 module.exports = logger;
+
+function getPath(url = '') {
+  return path.resolve(__dirname, url);
+}

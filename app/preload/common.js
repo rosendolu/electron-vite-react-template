@@ -10,11 +10,6 @@ const exposeObj = {
     chrome: process.versions.chrome,
     electron: process.versions.electron,
   },
-  msg: {
-    hi() {
-      ipcRenderer.send('msg/hi', 'hi from renderer');
-    },
-  },
 };
 
 const icpList = [

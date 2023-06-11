@@ -4,12 +4,10 @@ const path = require('path');
 const logger = require('../helper/logger');
 
 try {
-  // { cwd: path.resolve('./ipc') }
-  const middleware = glob.sync('./**/*.middleware.js', { cwd: path.resolve('./ipc') });
-  for (const filePath of middleware) {
-    const item = require(path.resolve('./ipc', filePath));
+  const middleware = glob.sync('./**/*.middleware.js', { cwd: getPath() }).map(url => require(getPath(url)));
+  for (const item of middleware) {
     const { channel, type, handler } = item;
-    logger.debug('ipc middleware', item);
+    // logger.debug('ipc middleware', item);
     if (type == 'on') {
       ipcMain.on(channel, (event, payload = {}) => {
         const ctx = { event, payload, res: null };
@@ -41,4 +39,8 @@ try {
   }
 } catch (error) {
   logger.error(error);
+}
+
+function getPath(url = '') {
+  return path.resolve(__dirname, url);
 }

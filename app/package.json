@@ -13,7 +13,7 @@
     "preprod": "env-cmd -f ../env/.env.prod npm run build:preload",
     "prod": "electron-forge start",
     "package": "electron-forge package",
-    "premake": "env-cmd -f ../env/.env.prod rm -rf ./out/make && npm run build:preload",
+    "premake": "env-cmd -f ../env/.env.prod npm run build:preload",
     "make": "electron-forge make"
   },
   "dependencies": {

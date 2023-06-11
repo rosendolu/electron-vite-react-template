@@ -4,7 +4,7 @@ const { electron } = require('process');
 const { dialog } = require('electron');
 
 const createChannelName = str => `msg/${str}`;
-const hi = createChannelName('hi');
+const channel = createChannelName('hi');
 
 async function sayHello(ctx, next) {
   // logger.debug('sayHello', ctx);
@@ -17,7 +17,7 @@ async function sayHello(ctx, next) {
 }
 
 module.exports = {
-  channel: hi,
+  channel,
   type: 'on',
   handler: compose([sayHello]),
 };

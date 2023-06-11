@@ -1,6 +1,5 @@
 const { app, BrowserWindow } = require('electron');
 const { createWindow } = require('./window/index');
-// const appIcon = new Tray(path.resolve('./assets/icon/'));
 (async () => {
   await app.whenReady();
   createWindow();
