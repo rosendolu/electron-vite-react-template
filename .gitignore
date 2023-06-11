@@ -35,3 +35,6 @@ app/web
 app/out
 .parcel-cache/
 app/local
+app/.parcel-cache
+app/.parcel-cache/data.mdb
+app/.parcel-cache/lock.mdb
