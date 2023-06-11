@@ -8,13 +8,13 @@
   "main": "main.js",
   "scripts": {
     "build:preload": "node preload/build.js",
-    "prestart": "env-cmd -f ../env/.env npm run build:preload",
-    "start": "electron-forge start",
-    "preprod": "env-cmd -f ../env/.env.prod npm run build:preload",
-    "prod": "electron-forge start",
+    "prestart": "npm run build:preload",
+    "start": "env-cmd -f ../env/.env electron-forge start",
+    "preprod": "npm run build:preload",
+    "prod": "env-cmd -f ../env/.env.prod electron-forge start",
     "package": "electron-forge package",
-    "premake": "env-cmd -f ../env/.env.prod npm run build:preload",
-    "make": "electron-forge make"
+    "premake": "npm run build:preload",
+    "make": "env-cmd -f ../env/.env.prod electron-forge make"
   },
   "dependencies": {
     "@electron-forge/maker-appx": "^6.1.1",
