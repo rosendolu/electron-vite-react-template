@@ -1,4 +1,5 @@
 import { Button, Checkbox, Form, Input, List, Space, Table, Typography } from 'antd';
+import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 
@@ -31,7 +32,7 @@ export default function Index() {
 
     params.scope = params.scope.map(item => plainOptions.filter(data => data.label == item)[0]).filter(item => item);
     if (params.scope.length == 0) {
-      toast.error('请选择搜索范围后再试');
+      toast.error('请选择搜索范围后再试', { duration: 1e3 });
       return;
     }
     console.log('params', params);
@@ -48,14 +49,20 @@ export default function Index() {
       setList(formatHighlight(list));
       console.log('list', list);
     } catch (error) {
-      toast.error('搜索失败，请稍后再试');
+      toast.error('搜索失败，请稍后再试', { duration: 1e3 });
       console.log(error);
     } finally {
       toast.dismiss(toastID);
-      form.resetFields(['count', 'scope', 'queryText']);
+      // form.resetFields(['count', 'scope', 'queryText']);
       toastID = '';
     }
   }
+  function onCheckboxChange(checkedValue: CheckboxValueType[]): void {
+    // form.setFieldValue('scope', checkedValue);
+    // setCheckList(checkedValue);
+  }
+  console.log('checkedList', checkedList, form.getFieldValue('scope'));
+
   return (
     <div className="p-4">
       <div className="text-center">
@@ -68,7 +75,7 @@ export default function Index() {
             onValuesChange={onFormChange}
             style={{ textAlign: 'center' }}
             layout="inline"
-            initialValues={{ count: 10, queryText: '', scope: checkedList }}>
+            initialValues={{ count: 10, queryText: '', scope: [] }}>
             <Form.Item label="关键词" name={'queryText'}>
               <Input placeholder="请输入搜索关键词" type="text" />
             </Form.Item>
@@ -76,10 +83,10 @@ export default function Index() {
               <Input className="min-w-[200px]" placeholder="默认10条" type="number" maxLength={4} min={10} max={1e3} />
             </Form.Item>
             <Form.Item label="选择范围" name="scope">
-              <Checkbox.Group>
-                {plainOptions.map(data => (
-                  <Checkbox key={data.label} value={data.label}>
-                    {data.label}
+              <Checkbox.Group onChange={onCheckboxChange} name="scope">
+                {checkedList.map(data => (
+                  <Checkbox key={data} value={data}>
+                    {data}
                   </Checkbox>
                 ))}
               </Checkbox.Group>
@@ -180,9 +187,9 @@ function RecordList({ data, keywords }) {
           onExpand: expand,
           expandRowByClick: true,
           expandedRowRender: record =>
-            record.contents.map(str => {
+            record.contents.map((str, i) => {
               return (
-                <Typography.Text key={str} mark={str == keywords}>
+                <Typography.Text key={i} mark={str == keywords}>
                   {str}
                 </Typography.Text>
               );
