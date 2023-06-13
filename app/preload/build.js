@@ -23,7 +23,7 @@ for (const item of middleware) {
 logger.debug(list);
 try {
   const preloadJs = readFileSync(getPath('./common.js')).toString();
-  const updatedContent = preloadJs.replace('const icpList = [];', `const icpList = ${JSON.stringify(list)};`);
+  const updatedContent = preloadJs.replace(/const ipcList = \[[\s\S]*?\];/g, `const ipcList = ${JSON.stringify(list)};`);
   writeFileSync(getPath('./common.js'), updatedContent);
   // logger.fatal('updatedContent', updatedContent);
 } catch (error) {

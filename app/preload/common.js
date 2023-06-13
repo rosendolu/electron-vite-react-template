@@ -12,12 +12,9 @@ const exposeObj = {
   },
 };
 
-const icpList = [
-  { channel: 'msg/hello', type: 'handle' },
-  { channel: 'scrapper/getPunishmentList', type: 'handle' },
-];
+const ipcList = [{"channel":"msg/hi","type":"on"},{"channel":"msg/hello","type":"handle"},{"channel":"scrapper/cbirc","type":"handle"}];
 
-for (const item of icpList) {
+for (const item of ipcList) {
   const { channel, type } = item;
   const keys = channel.split('/').filter(key => key !== '');
   let pre = exposeObj;

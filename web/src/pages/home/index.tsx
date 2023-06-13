@@ -1,13 +1,20 @@
-import { Button, Checkbox, Form, Input, List, Space, Table, Typography } from 'antd';
-import { CheckboxValueType } from 'antd/es/checkbox/Group';
+import { Button, Form, Input, List, Select, Space, Table, Typography } from 'antd';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 
 export default function Index() {
-  const [checkedList, setCheckList] = useState(() => plainOptions.map(item => item.label));
+  const [subTargetOptions, setSubTargetOptions] = useState<any>(permit);
   const [list, setList] = useState([]);
   const [form] = Form.useForm();
+
   function onFormChange(e) {
+    const { target } = e;
+    console.log('formchange', e);
+
+    if (target) {
+      form.resetFields(['subTarget']);
+      setSubTargetOptions(target == 930 ? permit : punishment);
+    }
     // console.log(e);
   }
 
@@ -29,13 +36,13 @@ export default function Index() {
   }
   async function submit() {
     const params = form.getFieldsValue(true);
-
-    params.scope = params.scope.map(item => plainOptions.filter(data => data.label == item)[0]).filter(item => item);
-    if (params.scope.length == 0) {
+    const totalList = permit.concat(punishment);
+    params.subTarget = params.subTarget.map(val => totalList.find(item => item.value == val));
+    console.log('params', params);
+    if (params.subTarget.length == 0) {
       toast.error('请选择搜索范围后再试', { duration: 1e3 });
       return;
     }
-    console.log('params', params);
     let toastID = '';
     if (toastID) {
       toastID = toast.loading('重新搜索中...', { id: toastID });
@@ -43,7 +50,7 @@ export default function Index() {
       toastID = toast.loading('搜索中...');
     }
     try {
-      const list = await window.$bridge.scrapper.getPunishmentList(params);
+      const list = await window.$bridge.scrapper.cbirc(params);
       toast.success('查询成功', { id: toastID });
 
       setList(formatHighlight(list));
@@ -53,21 +60,14 @@ export default function Index() {
       console.log(error);
     } finally {
       toast.dismiss(toastID);
-      // form.resetFields(['count', 'scope', 'queryText']);
       toastID = '';
     }
   }
-  function onCheckboxChange(checkedValue: CheckboxValueType[]): void {
-    // form.setFieldValue('scope', checkedValue);
-    // setCheckList(checkedValue);
-  }
-  console.log('checkedList', checkedList, form.getFieldValue('scope'));
-
   return (
     <div className="p-4">
       <div className="text-center">
         <Typography.Title level={2} style={{ textAlign: 'center' }}>
-          行政处罚记录
+          市场监督管理局
         </Typography.Title>
         <Space direction="horizontal" size={'middle'}>
           <Form
@@ -75,21 +75,29 @@ export default function Index() {
             onValuesChange={onFormChange}
             style={{ textAlign: 'center' }}
             layout="inline"
-            initialValues={{ count: 10, queryText: '', scope: [] }}>
+            initialValues={{ count: 10, queryText: '', subTarget: [], target: [930] }}>
             <Form.Item label="关键词" name={'queryText'}>
               <Input placeholder="请输入搜索关键词" type="text" />
             </Form.Item>
             <Form.Item label="检索数量" name="count">
               <Input className="min-w-[200px]" placeholder="默认10条" type="number" maxLength={4} min={10} max={1e3} />
             </Form.Item>
-            <Form.Item label="选择范围" name="scope">
-              <Checkbox.Group onChange={onCheckboxChange} name="scope">
-                {checkedList.map(data => (
-                  <Checkbox key={data} value={data}>
-                    {data}
-                  </Checkbox>
-                ))}
-              </Checkbox.Group>
+            <Form.Item name="target" label="搜索类别" style={{ minWidth: '120px' }}>
+              <Select
+                options={[
+                  { value: 930, label: '行政许可' },
+                  { value: 931, label: '行政处罚' },
+                ]}></Select>
+            </Form.Item>
+            <Form.Item label="选择范围" name="subTarget" style={{ minWidth: '160px' }}>
+              <Select
+                mode="multiple"
+                allowClear
+                style={{ minWidth: '150px' }}
+                placeholder="选择搜索范围"
+                options={subTargetOptions}
+                // onChange={handleChange}
+              />
             </Form.Item>
             <Form.Item>
               <Button type="primary" onClick={submit}>
@@ -204,20 +212,32 @@ function RecordList({ data, keywords }) {
   );
 }
 
-const plainOptions = [
+const punishment = [
   {
-    key: 'total',
-    itemId: 4113,
+    value: 4113,
     label: '总局',
   },
   {
-    key: 'province',
-    itemId: 4114,
+    value: 4114,
     label: '省局',
   },
   {
-    key: 'branch',
-    itemId: 4115,
+    value: 4115,
+    label: '分局',
+  },
+];
+
+const permit = [
+  {
+    value: 4110,
+    label: '总局',
+  },
+  {
+    value: 4111,
+    label: '省局',
+  },
+  {
+    value: 4112,
     label: '分局',
   },
 ];

@@ -3,7 +3,7 @@ const logger = require('../../helper/logger');
 const cheerio = require('cheerio');
 
 const createChannelName = str => `scrapper/${str}`;
-const channel = createChannelName('getPunishmentList');
+const channel = createChannelName('cbirc');
 
 module.exports = {
   channel,
@@ -13,10 +13,10 @@ module.exports = {
 
 function formatRes(ctx, next) {
   const { event, payload } = ctx;
-  let { queryText = '', count = 50, scope } = payload;
+  let { queryText = '', count = 50, subTarget } = payload;
   const res = ctx.res;
   ctx.res = res.map((arr, i) => {
-    const { key, itemID, label } = scope[i];
+    const { key, itemID, label } = subTarget[i];
     return {
       label,
       data: arr,
@@ -25,8 +25,8 @@ function formatRes(ctx, next) {
 }
 async function getData(ctx, next) {
   const { event, payload } = ctx;
-  // logger.debug('payload', payload);
-  let { queryText = '', count = 50, scope } = payload;
+  logger.debug('payload', payload);
+  let { queryText = '', count = 50, subTarget, target } = payload;
   count = parseInt(count);
   const pageSize = 18,
     pageIndex = 1,
@@ -39,22 +39,23 @@ async function getData(ctx, next) {
   const moreListURL = (itemId, pageIndex) =>
     `http://www.cbirc.gov.cn/cbircweb/DocInfo/SelectDocByItemIdAndChild?itemId=${itemId}&pageSize=${pageSize}&pageIndex=${pageIndex}`;
 
+  // `http://www.cbirc.gov.cn/cbircweb/DocInfo/SelectDocByItemIdAndChild?itemId=4110&pageSize=18&pageIndex=4`;
   // const moreListURL =
   //   "http://www.cbirc.gov.cn/cbircweb/DocInfo/SelectDocByItemIdAndChild";
 
-  let list = scope.map(item => {
-    const { key, itemId, label } = item;
+  let list = subTarget.map(item => {
+    const { value, label } = item;
 
     return Promise.all(
       new Array(((requestCount / pageSize) >> 0) + 1).fill(0).map((_, i) => {
         // if (1 > 0) {
         //   return `${moreListURL(itemId, i + 1)}`;
         // }
-        return fetch(`${moreListURL(itemId, i + 1)}`)
+        return fetch(`${moreListURL(value, i + 1)}`)
           .then(res => res.json())
           .then(data => {
             data.data.rows.map(item => {
-              item.itemId = itemId;
+              item.itemId = value;
               return item;
             });
             return data;
