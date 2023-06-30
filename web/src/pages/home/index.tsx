@@ -136,7 +136,7 @@ export default function Index() {
     const totalList = permit.concat(punishment);
     params.subTarget = (params.subTarget || []).map(val => totalList.find(item => item.value == val)).filter(val => !!val);
     params.target = targetOptions.find(item => item.value == params.target);
-    params.date = dateRef.current.map(time => dayjs(time).format('YYYY-MM-DD HH:mm')) || [];
+    params.date = dateRef.current?.map(time => dayjs(time).format('YYYY-MM-DD HH:mm')) || [];
     // params.date = params.date?.length ? params.date.map(time => time.getTime()) : [];
     console.log('params', params);
     if (params.subTarget.length == 0) {
