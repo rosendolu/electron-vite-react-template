@@ -1,0 +1,11 @@
+{
+    "_id": "8f69b541-ca0c-459a-bbfe-b4b48676549b",
+    "name": "(Global Env)",
+    "default": false,
+    "global": true,
+    "sortNum": -2,
+    "created": "2023-06-05T12:03:42.757Z",
+    "modified": "2023-06-05T12:03:42.757Z",
+    "data": [],
+    "envFile": "../env/.env"
+}

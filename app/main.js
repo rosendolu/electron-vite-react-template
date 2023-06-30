@@ -19,4 +19,5 @@ const { createWindow } = require('./window/index');
   });
   // ipc 通讯
   require('./ipc/index');
+  // logger.debug('userdata dir', app.getPath('userData'));
 })();

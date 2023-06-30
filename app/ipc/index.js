@@ -26,7 +26,7 @@ try {
         const ctx = { event, payload, res: null };
         return handler(ctx)
           .then(() => {
-            logger.debug('handle', channel, payload, ctx.res);
+            // logger.debug('handle', channel, payload, ctx.res);
             return ctx.res;
           })
           .catch(err => {

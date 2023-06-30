@@ -1,32 +1,32 @@
 const path = require('path');
 const log4js = require('log4js');
 const dayjs = require('dayjs');
-const NODE_ENV = process.env.NODE_ENV;
+const { isProd } = require('./utils');
+// const { app, BrowserWindow } = require('electron');
 
 const timeStamp = () => dayjs().format('YYYY-MM-DD HH:mm:ss');
 log4js.configure({
   appenders: {
-    // FIXME： 打包后该日志会导致应用程序崩溃
-    // default: {
-    //   type: 'dateFile',
-    //   pattern: 'hh',
-    //   filename:  getPath('../logs/log'),
-    //   maxLogSize: 5242880, // 5M
-    //   numBackups: 7,
-    //   // compress: true,
-    //   keepFileExt: true,
-    //   layout: {
-    //     type: 'pattern',
-    //     pattern: '[%x{time}] [%p] %m',
-    //     tokens: {
-    //       time: function (logEvent) {
-    //         // eslint-disable-next-line no-unused-vars
-    //         const { startTime, categoryName, data } = logEvent;
-    //         return timeStamp();
-    //       },
-    //     },
-    //   },
-    // },
+    default: {
+      type: 'dateFile',
+      pattern: 'hh',
+      filename: isProd ? path.resolve(process.env.HOME, '.zb-tool/logs/log') : path.resolve(__dirname, '../logs/log'),
+      maxLogSize: 5242880, // 5M
+      numBackups: 7,
+      // compress: true,
+      keepFileExt: true,
+      layout: {
+        type: 'pattern',
+        pattern: '[%x{time}] [%p] %m',
+        tokens: {
+          time: function (logEvent) {
+            // eslint-disable-next-line no-unused-vars
+            const { startTime, categoryName, data } = logEvent;
+            return timeStamp();
+          },
+        },
+      },
+    },
     console: {
       type: 'console',
       layout: {
@@ -43,7 +43,7 @@ log4js.configure({
     },
   },
   categories: {
-    default: { appenders: ['console'], level: 'all' },
+    default: { appenders: ['console', 'default'], level: 'all' },
   },
 });
 process.on('exit', () => {

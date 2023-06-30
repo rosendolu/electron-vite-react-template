@@ -1,28 +1,49 @@
 const compose = require('koa-compose');
 const logger = require('../../helper/logger');
-const cheerio = require('cheerio');
-
+const db = require('../../service/sqlite');
+const dayjs = require('dayjs');
 const createChannelName = str => `scrapper/${str}`;
 const channel = createChannelName('cbirc');
 
 module.exports = {
   channel,
   type: 'handle',
-  handler: compose([getData, formatRes]),
+  handler: compose([getList]),
 };
+const $db = db.sublevel('cbirc', { keyEncoding: 'utf8', valueEncoding: 'json' });
 
-function formatRes(ctx, next) {
+async function getList(ctx, next) {
   const { event, payload } = ctx;
-  let { queryText = '', count = 50, subTarget } = payload;
-  const res = ctx.res;
-  ctx.res = res.map((arr, i) => {
-    const { key, itemID, label } = subTarget[i];
-    return {
-      label,
-      data: arr,
-    };
-  });
+  let { queryText = '', count = 50, subTarget, target, date } = payload;
+  logger.debug('payload', payload);
+  //
+
+  for (const target of subTarget) {
+    const { label, value } = target;
+    const currentDB = $db.sublevel(String(value), { keyEncoding: 'utf8', valueEncoding: 'json' });
+    target.data = [];
+    target.total = 0;
+    try {
+      for await (const [, _doc] of currentDB.iterator()) {
+        const doc = typeof _doc == 'string' ? JSON.parse(doc) : _doc;
+
+        target.total += 1;
+        if (!queryText || new RegExp(queryText, 'i').test(doc.textContent)) {
+          const publishTime = dayjs(doc.publishDate);
+          if (!date.length || (publishTime.isBefore(date[0]) && publishTime.isAfter(date[1]))) {
+            target.data.push(doc);
+          }
+        }
+      }
+    } catch (err) {
+      logger.error('cbirc list', err);
+    }
+    // 倒序
+    target.data.sort((a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime());
+  }
+  ctx.res = subTarget;
 }
+
 async function getData(ctx, next) {
   const { event, payload } = ctx;
   logger.debug('payload', payload);
@@ -119,10 +140,11 @@ async function getData(ctx, next) {
       } else {
         item.contents = [text];
       }
-      if (new RegExp(queryText, 'i').test(text)) {
-        return true;
-      }
-      return false;
+      // if (new RegExp(queryText, 'i').test(text)) {
+      //   return true;
+      // }
+      // return false;
+      return true;
     })
   );
   next();

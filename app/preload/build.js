@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer, dialog } = require('electron');
+// const { contextBridge, ipcRenderer, dialog } = require('electron');
 const glob = require('glob');
 const path = require('path');
 const logger = require('../helper/logger');

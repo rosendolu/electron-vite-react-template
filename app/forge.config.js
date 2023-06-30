@@ -2,7 +2,9 @@ module.exports = {
   packagerConfig: {
     // 可找网站直接生成 windows https://www.butterpig.top/icopro
     icon: './assets/icon/app', // no file extension required
+    ignore: ['local/', 'logs/', 'out/'],
   },
+
   rebuildConfig: {},
   makers: [
     {

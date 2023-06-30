@@ -13,7 +13,7 @@
     "preprod": "npm run build:preload",
     "prod": "env-cmd -f ../env/.env.prod electron-forge start",
     "package": "electron-forge package",
-    "premake": "npm run build:preload",
+    "premake": "env-cmd -f ../env/.env.prod npm run build:preload",
     "make": "env-cmd -f ../env/.env.prod electron-forge make"
   },
   "dependencies": {
@@ -22,9 +22,12 @@
     "cheerio": "^1.0.0-rc.12",
     "dayjs": "^1.11.8",
     "electron-squirrel-startup": "^1.0.0",
+    "env-cmd": "^10.1.0",
     "glob": "^10.2.7",
     "koa-compose": "^4.1.0",
-    "log4js": "^6.9.1"
+    "level": "^8.0.0",
+    "log4js": "^6.9.1",
+    "make-dir": "^4.0.0"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.1.1",

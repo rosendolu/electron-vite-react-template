@@ -38,3 +38,4 @@ app/local
 app/.parcel-cache
 app/.parcel-cache/data.mdb
 app/.parcel-cache/lock.mdb
+log/
