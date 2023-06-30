@@ -46,7 +46,7 @@ export default function Index() {
   const [form] = Form.useForm();
   const [syncProgress, setSyncProgress] = useState<any[]>([]);
   const { value: finishedSync, setValue: changeSyncState } = useBoolean(false);
-  const defaultDate = [dayjs(), dayjs().subtract(1, 'day')];
+  const defaultDate = [dayjs().subtract(1, 'day'), dayjs()];
   const dateRef = useRef<any[]>(defaultDate);
   useEffect(() => {
     // @ts-ignore
