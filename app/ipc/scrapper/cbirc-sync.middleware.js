@@ -101,12 +101,16 @@ async function startSync(ctx, next) {
         label: scope.label,
         pageIndex: index,
       };
-      await syncPages(page, totalPageCount);
+      const stopSync = await syncPages(page, totalPageCount);
       // @ts-ignore
       $db.put(String(page.itemId), {
         progress: page.pageIndex,
         total: totalPageCount,
       });
+      // 同步完了，同步下一个
+      if (stopSync) {
+        break;
+      }
     }
     // @ts-ignore
     await $db.put(String(scope.itemId), {
@@ -121,7 +125,7 @@ async function syncPages(page, totalPageCount) {
   const detailURL = docId => `http://www.cbirc.gov.cn/cn/static/data/DocInfo/SelectByDocId/data_docId=${docId}.json`;
   const db = $db.sublevel(String(page.itemId), { keyEncoding: 'utf8', valueEncoding: 'json' });
 
-  await new Promise(resolve => {
+  return await new Promise(resolve => {
     setTimeout(async () => {
       try {
         logger.info(page);
@@ -169,7 +173,7 @@ async function syncPages(page, totalPageCount) {
             // 如果已经备份完成过一次了 当前这个 itemID 就不需要再存了
             const [err, status] = await promiseResult($db.get('syncStatus'));
             if (status === 3) {
-              resolve();
+              resolve(true);
               return;
             }
           }
@@ -177,7 +181,7 @@ async function syncPages(page, totalPageCount) {
       } catch (error) {
         logger.error('同步数据失败', error);
       } finally {
-        resolve();
+        resolve(false);
       }
     }, Math.random() * (5e3 - 1e3) + 1e3);
   });
