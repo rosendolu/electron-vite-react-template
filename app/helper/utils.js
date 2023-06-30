@@ -22,3 +22,4 @@ exports.readline = function (filePath) {
 exports.isProd = true;
 // exports.isProd = process.env.NODE_ENV === 'production';
 exports.promiseResult = fn => fn.then(res => [false, res]).catch(err => [true, err]);
+exports.isWindows = /win/i.test(process.platform);

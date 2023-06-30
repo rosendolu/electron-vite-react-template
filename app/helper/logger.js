@@ -1,7 +1,7 @@
 const path = require('path');
 const log4js = require('log4js');
 const dayjs = require('dayjs');
-const { isProd } = require('./utils');
+const { isProd, isWindows } = require('./utils');
 // const { app, BrowserWindow } = require('electron');
 
 const timeStamp = () => dayjs().format('YYYY-MM-DD HH:mm:ss');
@@ -10,7 +10,9 @@ log4js.configure({
     default: {
       type: 'dateFile',
       pattern: 'hh',
-      filename: isProd ? path.resolve(process.env.HOME, '.zb-tool/logs/log') : path.resolve(__dirname, '../logs/log'),
+      filename: isProd
+        ? path.resolve(isWindows ? process.env.HOMEPATH : process.env.HOME, '.zb-tool/logs/log')
+        : path.resolve(__dirname, '../logs/log'),
       maxLogSize: 5242880, // 5M
       numBackups: 7,
       // compress: true,
