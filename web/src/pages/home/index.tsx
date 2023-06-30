@@ -231,20 +231,16 @@ export default function Index() {
             type="dashboard"
             percent={syncProgress.length ? ((syncProgress.filter(item => item.progress === item.total).length / syncProgress.length) * 100) >> 0 : 0}
           />
-          {syncProgress.map(
-            (item, i) =>
-              // @ts-ignore
-              item.progress !== item.total && (
-                <>
-                  <Space direction="vertical" key={i} className="w-full">
-                    {/* @ts-ignore */}
-                    <Typography.Title level={5}>{item.label}</Typography.Title>
-                    {/* @ts-ignore */}
-                    <Progress percent={((item.progress / item.total) * 100) >> 0} size={['100%', 10]} />
-                  </Space>
-                </>
-              )
-          )}
+          {syncProgress.map((item, i) => (
+            <>
+              <Space direction="vertical" key={i} className="w-full">
+                {/* @ts-ignore */}
+                <Typography.Title level={5}>{item.label}</Typography.Title>
+                {/* @ts-ignore */}
+                <Progress percent={((item.progress / item.total) * 100) >> 0} size={['100%', 10]} />
+              </Space>
+            </>
+          ))}
         </Space>
       </Modal>
     </div>
