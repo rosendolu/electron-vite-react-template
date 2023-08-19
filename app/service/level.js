@@ -1,13 +1,14 @@
 const { Level } = require('level');
-const logger = require('../../helper/logger');
 const { app } = require('electron');
 const path = require('path');
-const { isProd } = require('../../helper/utils');
+const { isProd } = require('../helper/utils');
 
 // logger.info('dbPath', app.getPath('userData'));
 // // Create a database
 // const dbPath = path.resolve(app.getPath('userData'), 'db/sqlite');
-const dbPath = isProd ? path.resolve(app.getPath('userData'), 'db/sqlite') : path.resolve(__dirname, '../../log/sqlite');
+const dbPath = isProd
+  ? path.resolve(app.getPath('userData'), 'db/sqlite')
+  : path.resolve(__dirname, '../../log/sqlite');
 const db = new Level(dbPath, { keyEncoding: 'utf8', valueEncoding: 'json' });
 
 // (async () => {

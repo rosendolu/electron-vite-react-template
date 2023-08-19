@@ -1,5 +1,3 @@
-import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
-import { persistQueryClientSubscribe } from '@tanstack/react-query-persist-client';
 import { ConfigProvider } from 'antd';
 import 'antd/dist/reset.css';
 import zhCN from 'antd/locale/zh_CN';
@@ -24,19 +22,6 @@ const queryClient = new QueryClient({
       retry: false,
     },
   },
-});
-const persister = createSyncStoragePersister({ storage: window.localStorage });
-// const persister = createSyncStoragePersister({ storage: window.localStorage });
-
-persistQueryClientSubscribe({
-  // @ts-ignore
-  queryClient,
-  persister: persister,
-  maxAge: 1000 * 60 * 60 * 24 * 24, // 24 hours
-  // dehydrateOptions: {
-  //   dehydrateMutations: true,
-  //   dehydrateQueries: true,
-  // },
 });
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

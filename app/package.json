@@ -1,5 +1,5 @@
 {
-  "name": "zb-tool",
+  "name": "electron_startup",
   "version": "1.0.0",
   "author": "rosendo",
   "license": "MIT",
@@ -10,6 +10,7 @@
     "build:preload": "node preload/build.js",
     "prestart": "npm run build:preload",
     "start": "env-cmd -f ../env/.env electron-forge start",
+    "start:watch": "nodemon npm run start",
     "preprod": "npm run build:preload",
     "prod": "env-cmd -f ../env/.env.prod electron-forge start",
     "package": "electron-forge package",
@@ -17,25 +18,19 @@
     "make": "env-cmd -f ../env/.env.prod electron-forge make"
   },
   "dependencies": {
-    "@electron-forge/maker-appx": "^6.1.1",
-    "@types/node": "^20.2.5",
-    "cheerio": "^1.0.0-rc.12",
-    "dayjs": "^1.11.8",
-    "electron-squirrel-startup": "^1.0.0",
-    "env-cmd": "^10.1.0",
-    "glob": "^10.2.7",
-    "koa-compose": "^4.1.0",
-    "level": "^8.0.0",
-    "log4js": "^6.9.1",
-    "make-dir": "^4.0.0"
+    "@types/node": "20.5.1",
+    "cheerio": "1.0.0-rc.12",
+    "dayjs": "1.11.9",
+    "env-cmd": "10.1.0",
+    "glob": "10.3.3",
+    "koa-compose": "4.1.0",
+    "level": "8.0.0",
+    "log4js": "6.9.1",
+    "make-dir": "4.0.0"
   },
   "devDependencies": {
-    "@electron-forge/cli": "^6.1.1",
-    "@electron-forge/maker-deb": "^6.1.1",
-    "@electron-forge/maker-rpm": "^6.1.1",
-    "@electron-forge/maker-squirrel": "^6.1.1",
-    "@electron-forge/maker-zip": "^6.1.1",
-    "electron": "^25.0.1",
-    "nodemon": "^2.0.22"
+    "@electron-forge/cli": "^6.3.0",
+    "electron": "^26.0.0",
+    "nodemon": "^3.0.1"
   }
 }
