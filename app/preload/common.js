@@ -12,7 +12,7 @@ const exposeObj = {
   },
 };
 
-const ipcList = [{"channel":"msg/hi","type":"on"},{"channel":"msg/hello","type":"handle"},{"channel":"scrapper/cbirc","type":"handle"},{"channel":"scrapper/syncData","type":"handle"}];
+const ipcList = [{"channel":"msg/hi","type":"on"},{"channel":"msg/hello","type":"handle"}];
 
 for (const item of ipcList) {
   const { channel, type } = item;
