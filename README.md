@@ -1,7 +1,7 @@
 # electron-vite-react template
 
-## web
+## install
 
-https://github.com/rosendolu/vite-react-template
+electron 安装通过镜像地址 速度比较快
 
-## Debug
+`npx env-cmd env/.env npm i electron`

@@ -5,7 +5,7 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   base: './',
   plugins: [react()],
-  envDir: 'env',
+  envDir: '../env',
   envPrefix: ['__APP__'],
   build: {
     outDir: '../app/web',

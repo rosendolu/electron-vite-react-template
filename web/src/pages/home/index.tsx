@@ -1,6 +1,8 @@
 import { Button, Space } from 'antd';
 
 export default function Home() {
+  console.log(import.meta.env);
+
   return (
     <Space direction="horizontal">
       <Button>regular button </Button>

@@ -8,11 +8,7 @@ const baseURL = import.meta.env.__APP__baseURL;
  * @param timeout
  * @returns [boolean,res]
  */
-export default async function $fetch(
-  url: RequestInfo,
-  options: RequestInit,
-  timeout = 5e3
-) {
+export default async function $fetch(url: RequestInfo, options: RequestInit, timeout = 5e3) {
   composeOptions(options);
   const signal = options.signal || AbortSignal.timeout(timeout);
   // @ts-ignore
@@ -21,10 +17,7 @@ export default async function $fetch(
       let data = await res.json();
       const responseHeader = res.headers;
       // 兼容处理返回 json string 的
-      if (
-        typeof data == 'string' &&
-        responseHeader.get('Content-Type') == 'application/json'
-      ) {
+      if (typeof data == 'string' && responseHeader.get('Content-Type') == 'application/json') {
         data = JSON.parse(data);
       }
       // 业务状态码
@@ -49,8 +42,7 @@ export default async function $fetch(
 function composeOptions(options: RequestInit) {
   options.headers = new Headers(options.headers || {});
   // 设置默认 content-type  json
-  options.headers.has('Content-Type') ||
-    options.headers.set('Content-Type', 'application/json');
+  options.headers.has('Content-Type') || options.headers.set('Content-Type', 'application/json');
   const contentType = options.headers.get('Content-Type') ?? '';
   if (/post/gi.test(options?.method || '')) {
     if (contentType == 'application/json') {
@@ -61,16 +53,11 @@ function composeOptions(options: RequestInit) {
         // @ts-ignore
         options.body = JSON.stringify(options.body);
       }
-    } else if (
-      contentType == 'application/x-www-form-urlencoded' &&
-      typeof options.body == 'object'
-    ) {
+    } else if (contentType == 'application/x-www-form-urlencoded' && typeof options.body == 'object') {
       const keys = Object.keys(options?.body || {});
       // @ts-ignore
       options.body = keys.reduce((acc, key, i) => {
-        acc += `${key}=${options?.body?.[key] || ''}${
-          i == keys.length - 1 ? '' : '&'
-        }`;
+        acc += `${key}=${options?.body?.[key] || ''}${i == keys.length - 1 ? '' : '&'}`;
         return acc;
       }, '');
     }
