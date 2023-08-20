@@ -12,22 +12,10 @@
   "rules": {
     "no-unused-vars": "off",
     "no-unused-labels": "off",
-    "indent": [
-      "off",
-      "tab"
-    ],
-    "linebreak-style": [
-      "error",
-      "unix"
-    ],
-    "quotes": [
-      "off",
-      "single"
-    ],
+    "indent": ["off", "tab"],
+    "linebreak-style": ["error", "unix"],
+    "quotes": ["off", "single"],
     "no-case-declarations": "off",
-    "semi": [
-      "error",
-      "always"
-    ]
+    "semi": ["error", "always"]
   }
 }

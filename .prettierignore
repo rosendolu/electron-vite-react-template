@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.parcel-cache
+build
+log
+node_modules
+out/
+app/web

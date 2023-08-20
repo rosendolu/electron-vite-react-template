@@ -1,14 +1,6 @@
 {
   "restartable": "rs",
-  "ignore": [
-    ".git",
-    "node_modules/**/*",
-    ".vscode/**/*",
-    "./dist/**/*",
-    "debug/",
-    "build",
-    "web"
-  ],
+  "ignore": [".git", "node_modules/**/*", ".vscode/**/*", "./dist/**/*", "debug/", "build", "web"],
   "verbose": true,
   "watch": ["./ipc"],
   "env": {
